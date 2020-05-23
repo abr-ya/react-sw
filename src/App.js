@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './app.scss';
+import { SwApi } from './api';
 
-function App() {
+const App = () => {
+  useEffect(() => {
+    const swapi = new SwApi();
+
+    swapi.getAllPeople().then((people) => {
+      people.forEach((p) => {
+        console.log(p.name);
+      });
+    });
+
+    swapi.getPerson(5).then((p) => {
+      console.log(p);
+    });
+  }, []);
+
   return (
     <div className={styles.app}>
       <header className="App-header">
@@ -17,6 +32,6 @@ function App() {
       </header>
     </div>
   );
-}
+};
 
 export default App;
