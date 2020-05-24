@@ -1,8 +1,15 @@
 import React, { useEffect } from 'react';
-import styles from './app.scss';
-import { SwApi } from './api';
+import styles from './app.module.scss';
+import SwApi from './api';
+
+import Header from './components/Header/Header';
+import RandomPlanet from './components/RandomPlanet/RandomPlanet';
+import List from './components/List/List';
+import Person from './components/Person/Person';
 
 const App = () => {
+  const mainClasses = [styles.app, 'container'];
+
   useEffect(() => {
     const swapi = new SwApi();
 
@@ -18,18 +25,18 @@ const App = () => {
   }, []);
 
   return (
-    <div className={styles.app}>
-      <header className="App-header">
-        <p>Это стартовый пакет из CRA + ESLint + node-sass.</p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={mainClasses.join(' ')}>
+      <Header />
+      <RandomPlanet />
+
+      <div className="row mb2">
+        <div className="col-md-6">
+          <List />
+        </div>
+        <div className="col-md-6">
+          <Person />
+        </div>
+      </div>
     </div>
   );
 };

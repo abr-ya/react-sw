@@ -1,0 +1,26 @@
+.person {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+}
+
+.image {
+  width: 30%;
+  height: 30%;
+  border-radius: 10px;
+}
+
+.item {
+  padding: .25rem;
+}
+
+.term {
+  margin-right: .5rem;
+}
+
+/* Small */
+@media only screen and (max-width: 768px) {
+  .person {
+    margin-top: 1rem;
+  }
+}
