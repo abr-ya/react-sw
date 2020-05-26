@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styles from './randomPlanet.module.scss';
 
 import SwApi from '../../api';
+import Image from '../Image/Image';
 
 const RandomPlanet = () => {
+  const [id, setId] = useState(0);
   const [data, setData] = useState({
     id: null,
     name: '...load',
@@ -13,29 +15,19 @@ const RandomPlanet = () => {
   });
 
   useEffect(() => {
-    setData({
-      ...data,
-      id: Math.floor(Math.random() * 25) + 1,
-    });
-  // eslint-disable-next-line
+    setId(Math.floor(Math.random() * 25) + 1);
   }, []);
 
-  useEffect(() => {
-    const swapi = new SwApi();
+  const onPlanedLoaded = (planet) => {
+    setData(planet);
+  };
 
-    if (data.id) {
-      swapi.getPlanet(data.id).then((p) => {
-        setData({
-          ...data,
-          name: p.name,
-          population: p.population,
-          rotationPeriod: p.rotation_period,
-          diameter: p.diameter,
-        });
-      });
+  useEffect(() => {
+    if (id) {
+      const swapi = new SwApi();
+      swapi.getPlanet(id).then(onPlanedLoaded); // так аккуратнее
     }
-  // eslint-disable-next-line
-  }, [data.id]);
+  }, [id]);
 
   const mainClasses = [styles.randomPlanet, 'jumbotron', 'rounded'];
   const ulClasses = [styles.group, 'list-group', 'list-group-flush'];
@@ -43,13 +35,15 @@ const RandomPlanet = () => {
 
   return (
     <div className={mainClasses.join(' ')}>
-      {data.id && (
-        <img
-          className={styles.image}
-          src={`https://starwars-visualguide.com/assets/img/planets/${data.id}.jpg`}
-          alt="planet"
-        />
-      )}
+      <div className={styles.imageWrapper}>
+        {id && (
+          <Image
+            classN={styles.image}
+            src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+            alt="planet"
+          />
+        )}
+      </div>
 
       <div>
         <h4>{data.name}</h4>
