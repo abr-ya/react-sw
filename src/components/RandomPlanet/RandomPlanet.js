@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from './randomPlanet.module.scss';
 
 import SwApi from '../../api';
 import Image from '../Image/Image';
+import Loader2 from '../Loader2/Loader2';
 
 const RandomPlanet = () => {
   const [id, setId] = useState(0);
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState({
     id: null,
     name: '...load',
@@ -20,6 +23,7 @@ const RandomPlanet = () => {
 
   const onPlanedLoaded = (planet) => {
     setData(planet);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -30,16 +34,28 @@ const RandomPlanet = () => {
   }, [id]);
 
   const mainClasses = [styles.randomPlanet, 'jumbotron', 'rounded'];
+
+  return (
+    <div className={mainClasses.join(' ')}>
+      {loading ? <Loader2 /> : <Planet data={data} styles={styles} />}
+    </div>
+  );
+};
+
+export default RandomPlanet;
+
+// eslint-disable-next-line no-shadow
+const Planet = ({ data, styles }) => {
   const ulClasses = [styles.group, 'list-group', 'list-group-flush'];
   const liClasses = [styles.item, 'list-group-item'];
 
   return (
-    <div className={mainClasses.join(' ')}>
+    <>
       <div className={styles.imageWrapper}>
-        {id && (
+        {data.id && (
           <Image
             classN={styles.image}
-            src={`https://starwars-visualguide.com/assets/img/planets/${id}.jpg`}
+            src={`https://starwars-visualguide.com/assets/img/planets/${data.id}.jpg`}
             alt="planet"
           />
         )}
@@ -62,8 +78,13 @@ const RandomPlanet = () => {
           </li>
         </ul>
       </div>
-    </div>
+    </>
   );
 };
 
-export default RandomPlanet;
+Planet.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  data: PropTypes.object.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  styles: PropTypes.object.isRequired,
+};
