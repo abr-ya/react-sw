@@ -5,10 +5,13 @@ import styles from './randomPlanet.module.scss';
 import SwApi from '../../api';
 import Image from '../Image/Image';
 import Loader2 from '../Loader2/Loader2';
+import Error from '../Error/Error';
 
 const RandomPlanet = () => {
   const [id, setId] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('нет дополнительных данных');
   const [data, setData] = useState({
     id: null,
     name: '...load',
@@ -26,10 +29,21 @@ const RandomPlanet = () => {
     setLoading(false);
   };
 
+  const onError = (err) => {
+    setError(true);
+    setErrorMessage(err.message);
+    setLoading(false);
+    // eslint-disable-next-line no-console
+    console.log('Ошибка получения данных в компоненте RandomPlanet :', err.message);
+  };
+
+  // получаем данные - когда есть id, или когда он меняется
   useEffect(() => {
     if (id) {
       const swapi = new SwApi();
-      swapi.getPlanet(id).then(onPlanedLoaded); // так аккуратнее
+      swapi.getPlanet(id)
+        .then(onPlanedLoaded) // так аккуратнее - вынести в отдельную функцию
+        .catch(onError);
     }
   }, [id]);
 
@@ -37,7 +51,10 @@ const RandomPlanet = () => {
 
   return (
     <div className={mainClasses.join(' ')}>
-      {loading ? <Loader2 /> : <Planet data={data} styles={styles} />}
+      {// eslint-disable-next-line no-nested-ternary
+      loading ? <Loader2 />
+        : error ? <Error message={errorMessage} /> : <Planet data={data} styles={styles} />
+      }
     </div>
   );
 };

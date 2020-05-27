@@ -1,0 +1,16 @@
+.indicator {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #c78f22;
+}
+
+.indicator img {
+  margin-bottom: 1rem;
+  height: 80px;
+}
+
+.boom {
+  font-size: 1.7rem;
+}
