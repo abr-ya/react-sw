@@ -1,23 +1,67 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+import React, { useState, useEffect } from 'react';
 import styles from './list.module.scss';
 
-const List = () => {
+import SwApi from '../../api';
+import Loader2 from '../Loader2/Loader2';
+import Error from '../Error/Error';
+
+const List = ({ selectHandler }) => {
   // eslint-disable-next-line no-console
   console.log('List');
   const ulClasses = [styles.listGroup, 'list-group', 'item-list'];
   const liClasses = [styles.listGroupItem, 'list-group-item'];
 
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('нет дополнительных данных');
+
+  const onDataLoaded = (newData) => {
+    setData(newData);
+    setLoading(false);
+  };
+
+  const onError = (err) => {
+    setError(true);
+    setErrorMessage(err.message);
+    setLoading(false);
+    // eslint-disable-next-line no-console
+    console.log('Ошибка получения данных в компоненте List :', err.message);
+  };
+
+  const itemClickHandler = (id) => {
+    console.log('itemClickHandler', id);
+    selectHandler(id);
+  };
+
+  useEffect(() => {
+    const swapi = new SwApi();
+    swapi.getAllPeople()
+      .then(onDataLoaded) // так аккуратнее - вынести в отдельную функцию
+      .catch(onError);
+  }, []);
+
+  // преобразуем данные в jsx
+  const renderItems = (arr) => (
+    arr ? arr.map(({ id, name }) => (
+      <li
+        className={liClasses.join(' ')}
+        key={id}
+        onClick={() => itemClickHandler(id)}
+      >
+        {name}
+      </li>
+    )) : null
+  );
+
   return (
     <ul className={ulClasses.join(' ')}>
-      <li className={liClasses.join(' ')}>
-        Luke Skywalker
-      </li>
-      <li className={liClasses.join(' ')}>
-        Darth Vader
-      </li>
-      <li className={liClasses.join(' ')}>
-        R2-D2
-      </li>
+      {// eslint-disable-next-line no-nested-ternary
+        loading ? <Loader2 />
+          : error ? <Error message={errorMessage} /> : renderItems(data)
+      }
     </ul>
   );
 };

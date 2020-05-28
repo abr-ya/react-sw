@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './person.module.scss';
 
-const Person = () => {
+const Person = ({ selectedId }) => {
   // eslint-disable-next-line no-console
   console.log('Person');
   const mainClasses = [styles.person, 'card'];
@@ -17,7 +17,7 @@ const Person = () => {
       />
 
       <div className="card-body">
-        <h4>R2-D2</h4>
+        <h4>{`R2-D2 ${selectedId}`}</h4>
         <ul className={ulClasses.join(' ')}>
           <li className={liClasses.join(' ')}>
             <span className={styles.term}>Gender</span>

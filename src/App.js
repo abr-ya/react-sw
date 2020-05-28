@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './app.module.scss';
-// import SwApi from './api';
 
 import Header from './components/Header/Header';
 import RandomPlanet from './components/RandomPlanet/RandomPlanet';
@@ -8,21 +7,9 @@ import List from './components/List/List';
 import Person from './components/Person/Person';
 
 const App = () => {
+  const [selectedPerson, setSelectedPerson] = useState(0);
+
   const mainClasses = [styles.app, 'container'];
-
-  // useEffect(() => {
-  //   const swapi = new SwApi();
-
-  //   swapi.getAllPeople().then((people) => {
-  //     people.forEach((p) => {
-  //       console.log(p.name);
-  //     });
-  //   });
-
-  //   swapi.getPerson(5).then((p) => {
-  //     console.log(p);
-  //   });
-  // }, []);
 
   return (
     <div className={mainClasses.join(' ')}>
@@ -31,10 +18,10 @@ const App = () => {
 
       <div className="row mb2">
         <div className="col-md-6">
-          <List />
+          <List selectHandler={setSelectedPerson} />
         </div>
         <div className="col-md-6">
-          <Person />
+          <Person selectedId={selectedPerson} />
         </div>
       </div>
     </div>

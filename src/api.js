@@ -74,7 +74,7 @@ export default class SwApi {
     };
   }
 
-  transformPerson(person) {
+  transformPerson = (person) => {
     return {
       id: this.getId(person),
       name: person.name,
