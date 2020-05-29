@@ -50,37 +50,31 @@ export default class SwApi {
     return item.url.match(idRegExp)[1];
   }
 
-  transformPlanet(planet) {
-    return {
-      id: this.getId(planet),
-      name: planet.name,
-      population: planet.population,
-      rotationPeriod: planet.rotation_period,
-      diameter: planet.diameter,
-    };
-  }
+  transformPlanet = (planet) => ({
+    id: this.getId(planet),
+    name: planet.name,
+    population: planet.population,
+    rotationPeriod: planet.rotation_period,
+    diameter: planet.diameter,
+  })
 
-  transformStarship(starship) {
-    return {
-      id: this.getId(starship),
-      name: starship.name,
-      model: starship.model,
-      manufacturer: starship.manufacturer,
-      costInCredits: starship.costInCredits,
-      length: starship.length,
-      crew: starship.crew,
-      passengers: starship.passengers,
-      cargoCapacity: starship.cargoCapacity,
-    };
-  }
+  transformStarship = (starship) => ({
+    id: this.getId(starship),
+    name: starship.name,
+    model: starship.model,
+    manufacturer: starship.manufacturer,
+    costInCredits: starship.costInCredits,
+    length: starship.length,
+    crew: starship.crew,
+    passengers: starship.passengers,
+    cargoCapacity: starship.cargoCapacity,
+  })
 
-  transformPerson = (person) => {
-    return {
-      id: this.getId(person),
-      name: person.name,
-      gender: person.gender,
-      birthYear: person.birthYear,
-      eyeColor: person.eyeColor,
-    };
-  }
+  transformPerson = (person) => ({
+    id: this.getId(person),
+    name: person.name,
+    gender: person.gender,
+    birthYear: person.birthYear,
+    eyeColor: person.eyeColor,
+  })
 }

@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styles from './list.module.scss';
 
 import SwApi from '../../api';
@@ -32,7 +33,6 @@ const List = ({ selectHandler }) => {
   };
 
   const itemClickHandler = (id) => {
-    console.log('itemClickHandler', id);
     selectHandler(id);
   };
 
@@ -67,3 +67,7 @@ const List = ({ selectHandler }) => {
 };
 
 export default List;
+
+List.propTypes = {
+  selectHandler: PropTypes.func.isRequired,
+};

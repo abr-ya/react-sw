@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './person.module.scss';
 
 const Person = ({ selectedId }) => {
@@ -38,3 +39,7 @@ const Person = ({ selectedId }) => {
 };
 
 export default Person;
+
+Person.propTypes = {
+  selectedId: PropTypes.string.isRequired,
+};
