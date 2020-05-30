@@ -7,7 +7,7 @@ import List from './components/List/List';
 import Person from './components/Person/Person';
 
 const App = () => {
-  const [selectedPerson, setSelectedPerson] = useState('0');
+  const [selectedPerson, setSelectedPerson] = useState('');
 
   const mainClasses = [styles.app, 'container'];
 
