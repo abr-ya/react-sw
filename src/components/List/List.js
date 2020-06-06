@@ -8,9 +8,9 @@ import SwApi from '../../api';
 import Loader2 from '../Loader2/Loader2';
 import Error from '../Error/Error';
 
-const List = ({ selectHandler }) => {
+const List = ({ selectHandler, typeData }) => {
   // eslint-disable-next-line no-console
-  console.log('List');
+  console.log('List:', typeData);
   const ulClasses = [styles.listGroup, 'list-group', 'item-list'];
   const liClasses = [styles.listGroupItem, 'list-group-item'];
 
@@ -38,10 +38,12 @@ const List = ({ selectHandler }) => {
 
   useEffect(() => {
     const swapi = new SwApi();
-    swapi.getAllPeople()
+    const getterName = `getAll${typeData}s`;
+    console.log('getterName', getterName);
+    swapi[getterName]()
       .then(onDataLoaded) // так аккуратнее - вынести в отдельную функцию
       .catch(onError);
-  }, []);
+  }, [typeData]);
 
   // преобразуем данные в jsx
   const renderItems = (arr) => (
@@ -70,4 +72,5 @@ export default List;
 
 List.propTypes = {
   selectHandler: PropTypes.func.isRequired,
+  typeData: PropTypes.string.isRequired,
 };

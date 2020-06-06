@@ -13,7 +13,7 @@ export default class SwApi {
     return awaitRes;
   }
 
-  async getAllPeople() {
+  async getAllPersons() {
     const res = await this.getResource('people/');
     return res.results.map(this.transformPerson);
   }
@@ -34,20 +34,24 @@ export default class SwApi {
     return this.transformPlanet(planet);
   }
 
-  async getAllStarships() {
+  async getAllShips() {
     const res = await this.getResource('starships/');
-    return res.results.map(this.transformStarship);
+    return res.results.map(this.transformShip);
   }
 
-  getStarship(id) {
-    const starship = this.getResource(`starships/${id}`);
-    return this.transformStarship(starship);
+  async getShip(id) {
+    const starship = await this.getResource(`starships/${id}`);
+    return this.transformShip(starship);
   }
 
   // eslint-disable-next-line class-methods-use-this
   getId(item) {
-    const idRegExp = /\/([0-9]*)\/$/; // группа цифр из url
-    return item.url.match(idRegExp)[1];
+    if (item.url) {
+      const idRegExp = /\/([0-9]*)\/$/; // группа цифр из url
+      return item.url.match(idRegExp)[1];
+    }
+
+    return 0;
   }
 
   transformPlanet = (planet) => ({
@@ -58,7 +62,7 @@ export default class SwApi {
     diameter: planet.diameter,
   })
 
-  transformStarship = (starship) => ({
+  transformShip = (starship) => ({
     id: this.getId(starship),
     name: starship.name,
     model: starship.model,
