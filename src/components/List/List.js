@@ -20,6 +20,7 @@ const List = ({ selectHandler, typeData }) => {
   const [errorMessage, setErrorMessage] = useState('нет дополнительных данных');
 
   const onDataLoaded = (newData) => {
+    console.log('List newData:', newData);
     setData(newData);
     setLoading(false);
   };
@@ -47,7 +48,7 @@ const List = ({ selectHandler, typeData }) => {
 
   // преобразуем данные в jsx
   const renderItems = (arr) => (
-    arr ? arr.map(({ id, name }) => (
+    arr && Array.isArray(arr) ? arr.map(({ id, name }) => (
       <li
         className={liClasses.join(' ')}
         key={id}
@@ -59,12 +60,16 @@ const List = ({ selectHandler, typeData }) => {
   );
 
   return (
-    <ul className={ulClasses.join(' ')}>
-      {// eslint-disable-next-line no-nested-ternary
-        loading ? <Loader2 />
-          : error ? <Error message={errorMessage} /> : renderItems(data)
-      }
-    </ul>
+    <>
+      <ul className={ulClasses.join(' ')}>
+        {// eslint-disable-next-line no-nested-ternary
+          loading ? <Loader2 />
+            : error ? <Error message={errorMessage} /> : renderItems(data.data)
+        }
+      </ul>
+      {data && data.pager
+        && <Pager count={data.pager.count} next={data.pager.next || ''} prev={data.pager.previos || ''} />}
+    </>
   );
 };
 
@@ -73,4 +78,20 @@ export default List;
 List.propTypes = {
   selectHandler: PropTypes.func.isRequired,
   typeData: PropTypes.string.isRequired,
+};
+
+const Pager = ({ count, next, prev }) => (
+  <>
+    {`всего объектов: ${count}`}
+    <br />
+    {next}
+    <br />
+    {prev}
+  </>
+);
+
+Pager.propTypes = {
+  count: PropTypes.number.isRequired,
+  next: PropTypes.string.isRequired,
+  prev: PropTypes.string.isRequired,
 };

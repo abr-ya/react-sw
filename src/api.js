@@ -15,7 +15,14 @@ export default class SwApi {
 
   async getAllPersons() {
     const res = await this.getResource('people/');
-    return res.results.map(this.transformPerson);
+    return {
+      data: res.results.map(this.transformPerson),
+      pager: {
+        count: res.count,
+        next: res.next,
+        previous: res.previous,
+      },
+    };
   }
 
   async getPerson(id) {
@@ -25,7 +32,14 @@ export default class SwApi {
 
   async getAllPlanets() {
     const res = await this.getResource('planets/');
-    return res.results.map(this.transformPlanet);
+    return {
+      data: res.results.map(this.transformPlanet),
+      pager: {
+        count: res.count,
+        next: res.next,
+        previous: res.previous,
+      },
+    };
   }
 
   async getPlanet(id) {
@@ -36,7 +50,14 @@ export default class SwApi {
 
   async getAllShips() {
     const res = await this.getResource('starships/');
-    return res.results.map(this.transformShip);
+    return {
+      data: res.results.map(this.transformShip),
+      pager: {
+        count: res.count,
+        next: res.next,
+        previous: res.previous,
+      },
+    };
   }
 
   async getShip(id) {

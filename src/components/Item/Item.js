@@ -19,7 +19,7 @@ const Item = ({ typeData, selectedId }) => {
   const [errorMessage, setErrorMessage] = useState('нет дополнительных данных');
 
   const onDataLoaded = (newData) => {
-    console.log('newData:', newData);
+    console.log('Item newData:', newData);
     setData(newData);
     setLoading(false);
   };

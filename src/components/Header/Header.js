@@ -16,7 +16,7 @@ const Header = ({ setTypeData, setSelectedId }) => {
 
   return (
     <div className={mainClasses.join(' ')}>
-      <h3>Star DB</h3>
+      <h3>StarWars DB</h3>
       <ul className="d-flex">
         <li onClick={() => setter('Person')}>
           People

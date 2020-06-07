@@ -1,14 +1,21 @@
 .header {
   margin-top: .5rem;
-  padding-left: 10px;
   text-align: center;
 }
-  
+
+.header ul {
+  margin: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+  border-radius: 3px;
+}
+
 .header ul li {
   list-style: none;
   margin: 0;
   padding: .5rem 1rem;
   border-radius: 3px;
+  cursor: pointer;
 }
 
 .header ul li:hover {
